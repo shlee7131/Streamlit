@@ -1,0 +1,8 @@
+steps:
+  - name: Create .env file
+    run: |
+      echo "OPENAI_API_KEY=${{ secrets.KEY }}" >> .env
+      echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
+  - name: Run application
+    run: python main.py
