@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 import traceback
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
@@ -203,7 +201,5 @@ def init_chain(llm):
 
     parser = StrOutputParser()
     return prompt | llm | parser
-
-load_dotenv()
 
 main()
