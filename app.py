@@ -232,23 +232,6 @@ def spacebar_listener(disabled: bool = False):
     """, height=0)
 
 
-def render_status_bar(next_name: str, loading: bool):
-    """하단 상태 표시줄: 로딩 중이면 스피너 텍스트, 아니면 스페이스바 안내"""
-    if loading:
-        st.markdown(f"""
-        <div style="text-align:center;padding:14px 0 4px;color:#888;font-size:15px;">
-          ⏳ <b>{html_lib.escape(next_name)}</b>의 발언을 생성하는 중...
-        </div>""", unsafe_allow_html=True)
-    else:
-        st.markdown(f"""
-        <div style="text-align:center;padding:14px 0 4px;color:#555;font-size:15px;">
-          <kbd style="background:#f5f5f5;border:1px solid #ccc;border-bottom:3px solid #aaa;
-                      border-radius:5px;padding:2px 10px;font-size:13px;font-family:monospace;">
-            Space</kbd>
-          &nbsp;를 눌러 <b>{html_lib.escape(next_name)}</b>의 발언을 불러오세요
-        </div>""", unsafe_allow_html=True)
-
-
 def do_generate(speaker: str, name: str):
     """발언 생성 실행 (버튼 클릭 / 스페이스바 양쪽에서 호출)"""
     st.session_state.loading = True
@@ -290,16 +273,12 @@ def render_chat():
     next_name = a["name"] if speaker == "AI_A" else b["name"]
     loading = st.session_state.loading
 
-    # 상태 표시줄 + 스페이스바 리스너
-    render_status_bar(next_name, loading)
     spacebar_listener(disabled=loading)
 
-    # 버튼(스페이스바 대체 수단으로 항상 노출)
     if not loading:
-        if st.button(f"▶ {next_name} 발언 생성", type="primary", use_container_width=True):
+        if st.button(f"▶ {next_name} 발언 생성  ·  스페이스바를 누르세요", type="primary", use_container_width=True):
             do_generate(speaker, next_name)
 
-    st.markdown("<div style='margin-top:8px'></div>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⟳ 처음부터 다시", use_container_width=True):
@@ -309,7 +288,7 @@ def render_chat():
             st.session_state.api_errors = 0
             st.rerun()
     with col2:
-        if st.button("⚙ 설정 변경", use_container_width=True):
+        if st.button("🏠 홈", key="home_btn_bottom", use_container_width=True):
             st.session_state.screen = "settings"
             st.rerun()
 
