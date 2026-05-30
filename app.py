@@ -55,7 +55,8 @@ def build_system_prompt(speaker: str) -> str:
         "규칙:\n"
         "- 반드시 한 번에 3~5문장 이내로 간결하게 발언하세요\n"
         "- 상대방의 직전 발언에 반응하여 대화를 이어가세요\n"
-        "- 주제에서 벗어나지 마세요"
+        "- 주제에서 벗어나지 마세요\n"
+        "- 발언 맨 앞에 자신의 이름을 절대 붙이지 마세요 (예: '워렌 버핏: ...' 형식 금지)"
     )
 
 
@@ -64,7 +65,7 @@ def build_openai_messages(speaker: str) -> list:
     result = []
     for msg in history:
         role = "assistant" if msg["role"] == speaker else "user"
-        result.append({"role": role, "content": f"{msg['name']}: {msg['content']}"})
+        result.append({"role": role, "content": msg["content"]})
     return result
 
 
